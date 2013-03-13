@@ -16,8 +16,8 @@ class User
 
   def self.find_or_create(credentials)
     Instapaper.configure do |config|
-      config.consumer_key = CONSUMER_KEY
-      config.consumer_secret = CONSUMER_SECRET
+      config.consumer_key = ENV['INSTABRAIN_CONSUMER_KEY']
+      config.consumer_secret = ENV['INSTABRAIN_CONSUMER_SECRET']
     end
   
     result = Instapaper.access_token(credentials[:username], credentials[:password])
@@ -40,8 +40,8 @@ class User
 
   def configure_instapaper
     Instapaper.configure do |config|
-      config.consumer_key = CONSUMER_KEY
-      config.consumer_secret = CONSUMER_SECRET
+      config.consumer_key = ENV['INSTABRAIN_CONSUMER_KEY']
+      config.consumer_secret = ENV['INSTABRAIN_CONSUMER_SECRET']
       config.oauth_token = oauth_token
       config.oauth_token_secret = oauth_token_secret
     end 
