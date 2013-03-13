@@ -2,7 +2,6 @@ require 'rubygems'
 require 'bundler/setup'
 require 'sinatra'
 require './models'
-require './credentials'
 
 get "/" do
 	erb :signup
