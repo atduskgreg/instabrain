@@ -1,0 +1,6 @@
+<h2>Recent bookmarks from <%= @user.username %></h2>
+<ul>
+<% for bookmark in @user.bookmarks %>
+	<li><a href="<%= bookmark.url %>"><%= bookmark.title %></a></li>
+<% end %>
+</ul>

@@ -1,0 +1,8 @@
+source "http://rubygems.org"
+gem "dm-core"
+gem "dm-migrations"
+gem "dm-timestamps"
+gem "sinatra"
+gem "instapaper"
+gem "dm-postgres-adapter"
+gem "thin"
