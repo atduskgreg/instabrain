@@ -1,0 +1,6 @@
+.bundle/
+credentials.rb
+*.dat
+.DS_Store
+.rvmrc
+heroku

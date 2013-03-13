@@ -2,7 +2,7 @@ require 'dm-core'
 require 'dm-timestamps'
 require 'instapaper'
 
-DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/instabrain')
+DataMapper.setup(:default, ENV['HEROKU_POSTGRESQL_IVORY_URL'] || 'postgres://localhost/instabrain')
 
 class BadInstapaperCredentials < Exception; end
 
