@@ -9,12 +9,12 @@ end
 
 post "/users" do
 	credentials = {:username => params[:username], :password => params[:password]}
-	# begin
+	begin
 		user = User.find_or_create(credentials)
 		redirect to("/users/#{user.id}")
-	# rescue Exception => e
+	rescue BadInstapaperCredentials => e
 		redirect to("/")
-	# end
+	end
 end
 
 get "/users/:id" do
