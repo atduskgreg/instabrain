@@ -78,6 +78,13 @@ class User
     end
   end
 
+  def import_all_bookmarks!
+    bookmarks.each_with_index do |mark,i|
+      puts "importing #{i}/#{bookmarks.length}"
+      Article.import_bookmark(mark, self)
+    end
+  end
+
   def configure_instapaper
     Instapaper.configure do |config|
       config.consumer_key = ENV['INSTABRAIN_CONSUMER_KEY']
@@ -90,7 +97,7 @@ class User
   def bookmarks
     configure_instapaper
 
-    Instapaper.bookmarks
+    @bookmarks ||= Instapaper.bookmarks(:limit => 500)
   end
 
 end
