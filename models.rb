@@ -6,6 +6,44 @@ DataMapper.setup(:default, ENV['HEROKU_POSTGRESQL_IVORY_URL'] || 'postgres://loc
 
 class BadInstapaperCredentials < Exception; end
 
+class Article
+    include DataMapper::Resource
+    property :id, Serial
+
+    property :instapaper_id, String
+    property :title, Text
+    property :url, Text
+    property :body, Text
+    property :last_synced_at, DateTime 
+
+    belongs_to :user
+
+    def self.import_bookmark( mark, user ) # this is a Hashie::Rash
+      existing_marks = self.all(:instapaper_id => mark.bookmark_id)
+      
+      if existing_marks.empty?
+        article = Article.new
+        article.instapaper_id = mark.bookmark_id
+        article.title = mark.title
+        article.url = mark.url
+        article.user_id = user.id
+        article.save
+
+        return article
+      else 
+        return existing_marks[0]
+      end
+    end
+
+    def fetch_body!
+      user.configure_instapaper
+
+      self.body = Instapaper.text(self.instapaper_id)
+      self.last_synced_at = DateTime.now
+      self.save
+    end
+end
+
 class User
   include DataMapper::Resource
   
@@ -13,6 +51,8 @@ class User
   property :username, String
   property :oauth_token, String
   property :oauth_token_secret, String
+
+  has n, :articles
 
   def self.find_or_create(credentials)
     Instapaper.configure do |config|
